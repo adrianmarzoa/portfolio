@@ -28,7 +28,7 @@
     }
 
     body {
-      font-family: "Lato", serif;
+      font-family: "Georgia", serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
@@ -36,36 +36,38 @@
     }
 
     .wrap {
-      max-width: 68rem;
-      margin: 0 auto;
-      padding: 0 2.4rem;
+      max-width: 96rem;
+      margin: 4.8rem auto;
+      padding: 0 2.6rem;
     }
     
     h2 {
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       color: var(--text-light);
       margin: 4rem 0 1.6rem;
     }
     
     header {
-      margin: 4.8rem 0 1.8rem;
+      margin-bottom: 2rem;
     }
 
     .tagline {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       font-style: italic;
       color: var(--text-light);
     }
 
     .links {
-      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.4rem;
+      margin-top: 1.6rem;
     }
 
     .links a {
-      font-size: 1.6rem;
-      margin-right: 2.4rem;
+      font-size: 1.7rem;
       text-decoration-thickness: 1px;
       text-underline-offset: 6px;
       color: var(--text);
@@ -73,7 +75,7 @@
 
     section {
       border-top: 1px solid var(--border);
-      margin-bottom: 1.8rem;
+      margin-bottom: 2rem;
     }
 
     .skills {
@@ -90,7 +92,10 @@
     }
 
     .tags {
-      margin: 1.2rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin: 1.6rem 0;
     }
 
     .tags span {
@@ -98,7 +103,7 @@
       border-radius: 100px;
       padding: 2px 1rem;
       margin-right: 6px;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       color: var(--text-light);
     }
 
@@ -148,23 +153,6 @@
         into sports, astronomy and learning new things.</p>
     </section>
     <section>
-      <h2 data-en="Skills" data-es="Habilidades">Skills</h2>
-      <div class="skills">
-        <div class="cat" data-en="Languages" data-es="Lenguajes">Languages</div>
-        <div class="items">Java, SQL, Python</div>
-        <div class="cat" data-en="Frameworks" data-es="Frameworks">Frameworks</div>
-        <div class="items">Spring Boot, JPA / Hibernate</div>
-        <div class="cat" data-en="Databases" data-es="Bases de datos">Databases</div>
-        <div class="items">PostgreSQL, MySQL</div>
-        <div class="cat" data-en="DevOps &amp; Tools" data-es="DevOps y herramientas">DevOps &amp; Tools</div>
-        <div class="items">Docker, Nginx, Git, Linux, Maven</div>
-        <div class="cat" data-en="Concepts" data-es="Conceptos">Concepts</div>
-        <div class="items" data-en="REST APIs, authentication (JWT), testing, deployment"
-          data-es="APIs REST, autenticación (JWT), testing, despliegue">REST APIs, authentication (JWT), testing,
-          deployment</div>
-      </div>
-    </section>
-    <section>
       <h2 data-en="Projects" data-es="Proyectos">Projects</h2>
 
       <div class="project">
@@ -195,8 +183,25 @@
           <a href="#" target="_blank" rel="noopener" data-en="Live demo"
             data-es="Demo">Live demo</a>
           <a href="#" target="_blank" rel="noopener"
-            data-en="Technical Decisions" data-es="Decisiones técnicas ->">Technical Decisions</a>
+            data-en="Technical Decisions" data-es="Decisiones técnicas">Technical Decisions</a>
         </div>
+      </div>
+    </section>
+    <section>
+      <h2 data-en="Skills" data-es="Habilidades">Skills</h2>
+      <div class="skills">
+        <div class="cat" data-en="Languages" data-es="Lenguajes">Languages</div>
+        <div class="items">Java, SQL, Python</div>
+        <div class="cat" data-en="Frameworks" data-es="Frameworks">Frameworks</div>
+        <div class="items">Spring Boot, JPA / Hibernate</div>
+        <div class="cat" data-en="Databases" data-es="Bases de datos">Databases</div>
+        <div class="items">PostgreSQL, MySQL</div>
+        <div class="cat" data-en="DevOps &amp; Tools" data-es="DevOps y herramientas">DevOps &amp; Tools</div>
+        <div class="items">Docker, Nginx, Git, Linux, Maven</div>
+        <div class="cat" data-en="Concepts" data-es="Conceptos">Concepts</div>
+        <div class="items" data-en="REST APIs, authentication (JWT), testing, deployment"
+          data-es="APIs REST, autenticación (JWT), testing, despliegue">REST APIs, authentication (JWT), testing,
+          deployment</div>
       </div>
     </section>
     <script>

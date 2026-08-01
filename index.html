@@ -42,6 +42,10 @@
 <body>
   <div class="wrap">
 
+    <div class="toggle-lang">
+      <button id="langBtn" onclick="toggleLang()">ES</button>
+    </div>
+
     <header>
       <h1>Adrian Marzoa</h1>
       <p>I like to build real projects.</p>
@@ -104,15 +108,24 @@
           </li>
         </ul>
         <div class="project__links">
-          <a href="https://github.com/adrianmarzoa/inventory-manager-api" target="_blank" rel="noopener" data-en="Code →"
-            data-es="Código →">Code →</a>
+          <a href="https://github.com/adrianmarzoa/inventory-manager-api" target="_blank" rel="noopener"
+            data-en="Code →" data-es="Código →">Code →</a>
           <a href="https://api.YOURDOMAIN.com/swagger-ui.html" target="_blank" rel="noopener" data-en="Live demo →"
             data-es="Demo →">Live demo →</a>
-          <a href="https://api.YOURDOMAIN.com/swagger-ui.html" target="_blank" rel="noopener" data-en="Technical Decisions →"
-            data-es="Decisiones técnicas →">Technical Decisions →</a>
+          <a href="https://api.YOURDOMAIN.com/swagger-ui.html" target="_blank" rel="noopener"
+            data-en="Technical Decisions →" data-es="Decisiones técnicas →">Technical Decisions →</a>
         </div>
       </div>
     </section>
+    <script>
+      let lang = "en";
+      function toggleLang() {
+        lang = lang === "en" ? "es" : "en";
+        document.documentElement.lang = lang;
+        langBtn.textContent = lang === "en" ? "ES" : "EN";
+        document.querySelectorAll("[data-en]").forEach(el => el.textContent = el.getAttribute("data-" + lang));
+      }
+    </script>
   </div>
 </body>
 

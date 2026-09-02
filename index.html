@@ -15,6 +15,11 @@
       --text: #111111;
       --text-light: #666666;
       --border: #e2e2e2;
+      --blue-soft: #f1f6fd;
+      --project-border: #dde7f7;
+      --pending-bg: #e3edfb;
+      --pending-border: #b9d3f5;
+      --pending-text: #2563a8;
     }
 
     * {
@@ -28,7 +33,7 @@
     }
 
     body {
-      font-family: "Georgia", serif;
+      font-family: "Lato", serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
@@ -40,7 +45,7 @@
       margin: 4.8rem auto;
       padding: 0 2.6rem;
     }
-    
+
     h2 {
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -48,7 +53,7 @@
       color: var(--text-light);
       margin: 4rem 0 1.6rem;
     }
-    
+
     header {
       margin-bottom: 2rem;
     }
@@ -107,8 +112,36 @@
       color: var(--text-light);
     }
 
+    .project__box {
+      background: var(--blue-soft);
+      border: 1px solid var(--project-border);
+      border-radius: 15px;
+      padding: 3.2rem 4.8rem;
+      margin-bottom: 2.4rem;
+    }
+
     .project ul {
       margin-left: 2rem;
+    }
+
+    .project ul li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .pending {
+      display: inline-block;
+      flex-shrink: 0;
+      background: var(--pending-bg);
+      border: 1px solid var(--pending-border);
+      color: var(--pending-text);
+      border-radius: 100px;
+      padding: 1px 1rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
     }
 
     .toggle-lang {
@@ -116,15 +149,14 @@
       top: 2.4rem;
       right: 2.4rem;
     }
-    
-    .toggle-lang button{
+
+    .toggle-lang button {
       padding: 1rem;
       cursor: pointer;
       border: 1px solid var(--text);
       border-radius: 4px;
       background-color: white;
     }
-
   </style>
 </head>
 
@@ -155,7 +187,7 @@
     <section>
       <h2 data-en="Projects" data-es="Proyectos">Projects</h2>
 
-      <div class="project">
+      <div class="project project__box">
         <h3>Inventory Management API</h3>
         <div class="desc"
           data-en="A REST API to manage inventory, with a PostgreSQL database, containerised with Docker and deployed on my own server."
@@ -166,24 +198,29 @@
           <span>Java</span><span>Spring Boot</span><span>PostgreSQL</span><span>Docker</span>
         </div>
         <ul>
-          <li data-en="Full CRUD REST API with layered architecture (controller / service / repository)"
-            data-es="API REST con CRUD completo y arquitectura por capas (controlador / servicio / repositorio)">Full
-            CRUD REST API with layered architecture (controller / service / repository)</li>
-          <li data-en="User authentication with JWT tokens" data-es="Autenticación de usuarios con tokens JWT">User
-            authentication with JWT tokens</li>
-          <li data-en="Unit and integration tests" data-es="Tests unitarios y de integración">Unit and integration tests
-          </li>
-          <li data-en="Dockerised and deployed behind Nginx with HTTPS"
-            data-es="Contenedorizada y desplegada tras Nginx con HTTPS">Dockerised and deployed behind Nginx with HTTPS
-          </li>
+          <li><span data-en="Full CRUD REST API with layered architecture (controller / service / repository)"
+              data-es="API REST con CRUD completo y arquitectura por capas (controlador / servicio / repositorio)">Full
+              CRUD REST API with layered architecture (controller / service / repository)</span></li>
+          <li><span data-en="Custom exceptions" data-es="Excepciones personalizadas">Custom exceptions</span>
+          <li><span data-en="Pagination" data-es="Paginación">Pagination</span>
+          <li><span data-en="User authentication with JWT tokens"
+              data-es="Autenticación de usuarios con tokens JWT">User
+              authentication with JWT tokens</span><span class="pending" data-en="Pending"
+              data-es="Pendiente">Pending</span></li>
+          <li><span data-en="Unit and integration tests" data-es="Tests unitarios y de integración">Unit and
+              integration tests</span><span class="pending" data-en="Pending" data-es="Pendiente">Pending</span></li>
+          <li><span>CI/CD<span class="pending" data-en="Pending" data-es="Pendiente">Pending</span></span>
+          <li><span data-en="Dockerised and deployed behind Nginx with HTTPS"
+              data-es="Contenedorizada y desplegada tras Nginx con HTTPS">Dockerised and deployed behind Nginx with
+              HTTPS</span><span class="pending" data-en="Pending" data-es="Pendiente">Pending</span></li>
+          
         </ul>
         <div class="links">
           <a href="https://github.com/adrianmarzoa/inventory-manager-api" target="_blank" rel="noopener" data-en="Code"
             data-es="Código">Code</a>
-          <a href="#" target="_blank" rel="noopener" data-en="Live demo"
-            data-es="Demo">Live demo</a>
-          <a href="#" target="_blank" rel="noopener"
-            data-en="Technical Decisions" data-es="Decisiones técnicas">Technical Decisions</a>
+          <!--<a href="#" target="_blank" rel="noopener" data-en="Live demo" data-es="Demo">Live demo</a>-->
+          <a href="#" target="_blank" rel="noopener" data-en="Technical Decisions"
+            data-es="Decisiones técnicas">Technical Decisions</a>
         </div>
       </div>
     </section>
@@ -199,8 +236,8 @@
         <div class="cat" data-en="DevOps &amp; Tools" data-es="DevOps y herramientas">DevOps &amp; Tools</div>
         <div class="items">Docker, Nginx, Git, Linux, Maven</div>
         <div class="cat" data-en="Concepts" data-es="Conceptos">Concepts</div>
-        <div class="items" data-en="REST APIs, authentication (JWT), testing, deployment"
-          data-es="APIs REST, autenticación (JWT), testing, despliegue">REST APIs, authentication (JWT), testing,
+        <div class="items" data-en="REST APIs, testing, deployment"
+          data-es="APIs REST, testing, despliegue">REST APIs, testing,
           deployment</div>
       </div>
     </section>

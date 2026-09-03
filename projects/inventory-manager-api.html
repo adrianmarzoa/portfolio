@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Decisions — Inventory Management API</title>
+  <meta name="description" content="Technical decisions behind the Inventory Management API.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+
+<body class="doc">
+  <div class="wrap">
+    <div class="toggle-lang">
+      <button id="langBtn" onclick="toggleLang()">ES</button>
+    </div>
+
+    <a class="back" href="../index.html" data-en="&larr; Back" data-es="&larr; Volver">&larr; Back</a>
+
+    <h1 data-en="Technical Decisions" data-es="Decisiones técnicas">Technical Decisions</h1>
+    <div class="subtitle">Inventory Management API</div>
+
+    <article>
+      <p data-en="This project is an implementation of a REST API for inventory management with Spring Boot. It implements CRUD, JPA relationships, validation, exception handling, JWT authentication, migrations with Flyway and deployment with Docker."
+        data-es="Este proyecto es una implementación de una API REST para la gestión de inventario con Spring Boot. El proyecto implementa CRUD, relaciones JPA, validaciones, manejo de excepciones, autenticación JWT, migraciones con Flyway y despliegue mediante Docker.">
+        This project is an implementation of a REST API for inventory management with Spring Boot. It implements CRUD,
+        JPA relationships, validation, exception handling, JWT authentication, migrations with Flyway and deployment
+        with Docker.</p>
+
+      <h2 data-en="Database design" data-es="Diseño de la base de datos">Database design</h2>
+      <p data-en="The first step was designing the whole system in layers according to what I wanted to achieve. Since it is an inventory management system, I started by designing the database, which contains 5 tables:"
+        data-es="El primer paso realizado fue el diseño por capas del sistema completo en función de lo que buscaba conseguir. Como se trata de un sistema de gestión de inventario, en primer lugar diseñé la base de datos, la cual contiene 5 tablas:">
+        The first step was designing the whole system in layers according to what I wanted to achieve. Since it is an
+        inventory management system, I started by designing the database, which contains 5 tables:</p>
+      <ul>
+        <li data-en="Products: each product belongs to a category and a supplier."
+          data-es="Productos: cada producto pertenece a una categoría y a un proveedor.">
+          Products: each product belongs to a category and a supplier.</li>
+        <li data-en="Categories: a product belongs to one category, but a category can contain many products (1:N)."
+          data-es="Categorías: cada producto pertenece a una categoría, pero a una categoría pueden pertenecer muchos productos (1:N).">
+          Categories: a product belongs to one category, but a category can contain many products (1:N).</li>
+        <li data-en="Warehouses: a warehouse can store many products."
+          data-es="Almacenes: un almacén puede almacenar muchos productos.">
+          Warehouses: a warehouse can store many products.</li>
+        <li data-en="Suppliers: a supplier can manufacture many products, but each product was manufactured by a single supplier (1:N)."
+          data-es="Proveedores: un proveedor puede fabricar muchos productos, pero cada producto solo fue fabricado por un proveedor (1:N).">
+          Suppliers: a supplier can manufacture many products, but each product was manufactured by a single supplier
+          (1:N).</li>
+        <li data-en="Stock movements: they record the operations performed. Each product and each warehouse can have many stock movements; a stock movement takes place in exactly one warehouse and one product (each movement is recorded per product) (1:N)."
+          data-es="Movimientos de stock: registran los movimientos ejecutados. Cada producto y cada almacén pueden tener muchos movimientos de stock; cada movimiento de stock únicamente puede tener lugar en un almacén y un producto (el movimiento se registra individualmente por producto) (1:N).">
+          Stock movements: they record the operations performed. Each product and each warehouse can have many stock
+          movements; a stock movement takes place in exactly one warehouse and one product (each movement is recorded
+          per product) (1:N).</li>
+      </ul>
+
+      <h2 data-en="PostgreSQL" data-es="PostgreSQL">PostgreSQL</h2>
+      <p data-en="I chose PostgreSQL for its robustness and its good integration with Spring Boot. Once the SQL is written, it is important to make sure the data types and constraints are precise for each field. I also decided to create indexes on the foreign keys, since they will be queried heavily by the API; this increases storage and write cost, but as the API performs mostly read operations it pays off. I seeded the tables with sample data to simulate real usage."
+        data-es="Para la creación he escogido PostgreSQL por su robustez y su buena integración con Spring Boot. Al terminar de escribir el código SQL es importante asegurarse de que los tipos de datos y las restricciones sean precisos para cada dato. También he decidido crear índices para las claves foráneas, ya que serán campos muy consultados por la API; esto incrementa el espacio y el coste de escritura, pero como la API va a realizar muchas operaciones de lectura, resulta más eficiente. Rellené las tablas con una serie de datos de prueba para simular el funcionamiento real.">
+        I chose PostgreSQL for its robustness and its good integration with Spring Boot. Once the SQL is written, it is
+        important to make sure the data types and constraints are precise for each field. I also decided to create
+        indexes on the foreign keys, since they will be queried heavily by the API; this increases storage and write
+        cost, but as the API performs mostly read operations it pays off. I seeded the tables with sample data to
+        simulate real usage.</p>
+
+      <h2 data-en="Entities" data-es="Entidades">Entities</h2>
+      <p data-en="Next I moved the design to Java. I chose Spring Boot because it provides integration with Spring Data JPA, dependency management and bean validation, which lets me focus on the business logic. To connect the database to the code, the first thing I do is create the entities (the Java representations of the database objects), using JPA annotations to define the relationships and constraints."
+        data-es="A continuación continué con el diseño ya en Java. Opté por utilizar Spring Boot ya que proporciona integración con Spring Data JPA, gestión de dependencias y bean validation, lo que nos permite centrarnos en la lógica de negocio. Necesito conectar la base de datos al código, y lo primero que hago es crear las entidades (representaciones de los objetos de nuestra BBDD en Java). Para ello empleo las anotaciones de JPA para definir las relaciones y restricciones.">
+        Next I moved the design to Java. I chose Spring Boot because it provides integration with Spring Data JPA,
+        dependency management and bean validation, which lets me focus on the business logic. To connect the database
+        to the code, the first thing I do is create the entities (the Java representations of the database objects),
+        using JPA annotations to define the relationships and constraints.</p>
+
+      <h2 data-en="Repositories" data-es="Repositorios">Repositories</h2>
+      <p data-en="The next step is the repositories (the layer that runs the SQL queries against the database). Most queries are implemented through Spring Data JPA methods, which greatly reduces the amount of hand-written SQL."
+        data-es="Una vez hecho esto, el siguiente paso del diseño son los repositorios (la capa que realiza las consultas SQL a nuestra base de datos). La mayoría de las consultas SQL se implementan mediante métodos de Spring Data JPA, lo que reduce considerablemente el SQL escrito manualmente.">
+        The next step is the repositories (the layer that runs the SQL queries against the database). Most queries are
+        implemented through Spring Data JPA methods, which greatly reduces the amount of hand-written SQL.</p>
+
+      <h2 data-en="Services" data-es="Servicios">Services</h2>
+      <p data-en="Then I created the services. This is where I run the relevant validations to make sure only correct data reaches the repository methods, preventing invalid data from being written to the database. The business logic is centralised in this layer to keep the controllers thin and separate responsibilities."
+        data-es="A continuación creé los servicios. Realizo las validaciones pertinentes para asegurarme de que siempre llegue la información correcta a los métodos del repositorio, evitando así que alguien pueda introducir datos inválidos en la base de datos. La lógica de negocio se centraliza en esta capa para mantener los controladores ligeros y poder separar las responsabilidades.">
+        Then I created the services. This is where I run the relevant validations to make sure only correct data
+        reaches the repository methods, preventing invalid data from being written to the database. The business logic
+        is centralised in this layer to keep the controllers thin and separate responsibilities.</p>
+
+      <h2 data-en="Controllers" data-es="Controladores">Controllers</h2>
+      <p data-en="Next came the controllers, responsible for receiving HTTP requests and returning responses. I designed them following REST principles, using the HTTP methods (GET, POST, PUT and DELETE) and distinguishing between path variables (@PathVariable) and query parameters (@RequestParam). They contain no business logic, keeping responsibilities separated."
+        data-es="El siguiente paso fue crear los controladores, encargados de recibir las peticiones HTTP y devolver las respuestas. Los diseñé pensando en los principios REST, utilizando los métodos HTTP (GET, POST, PUT y DELETE) y diferenciando entre parámetros de ruta (@PathVariable) y parámetros de consulta (@RequestParam). No se ha incluido lógica de negocio, separando responsabilidades.">
+        Next came the controllers, responsible for receiving HTTP requests and returning responses. I designed them
+        following REST principles, using the HTTP methods (GET, POST, PUT and DELETE) and distinguishing between path
+        variables (@PathVariable) and query parameters (@RequestParam). They contain no business logic, keeping
+        responsibilities separated.</p>
+
+      <h2 data-en="DTOs and mappers" data-es="DTOs y mappers">DTOs and mappers</h2>
+      <p data-en="Working directly with entities means losing control over which fields the API exposes. That is why I decided to create request and response DTOs for each entity. The request DTOs do not include an id: on creation it is generated automatically, and on update and delete it is already in the URL, so there is no point repeating it. Right now the response DTOs return every field, but it is ready to scale in the future if I add a field I want to hide. Along with the DTOs I created the mappers for the conversion."
+        data-es="Si trabajamos directamente con entidades, perdemos control sobre los campos que queremos exponer en la API. Por lo que decidí crear DTOs tanto de request como de response para cada entidad; los de request no incluyen id, porque en las operaciones de creación ya se crea automáticamente y en las operaciones de actualización y eliminación ya viene en la propia URL, por lo que no nos conviene repetirlo. Actualmente los DTOs de response devuelven todos los campos, pero lo dejo preparado para escalar en el futuro en el caso de que agregue algún campo que quiera ocultar. Junto con los DTOs creé los mappers para hacer la conversión.">
+        Working directly with entities means losing control over which fields the API exposes. That is why I decided to
+        create request and response DTOs for each entity. The request DTOs do not include an id: on creation it is
+        generated automatically, and on update and delete it is already in the URL, so there is no point repeating it.
+        Right now the response DTOs return every field, but it is ready to scale in the future if I add a field I want
+        to hide. Along with the DTOs I created the mappers for the conversion.</p>
+
+      <h2 data-en="Validation" data-es="Validación">Validation</h2>
+      <p data-en="I chose to add bean validation only on the request DTOs, because in this design no invalid data can reach an entity without first passing through the request DTOs and the service's business logic, so the entity does not need to protect itself. It also avoids duplicating validations between the request DTO and the entity."
+        data-es="Opté por incluir bean validation únicamente en los request DTO porque en este diseño ningún dato inválido podrá ser introducido directamente a la entidad sin pasar por los request DTO ni por la lógica de negocio del servicio, con lo que no hace falta que la entidad se proteja sola, además de que duplicaría las validaciones tanto en el request DTO como en las entidades.">
+        I chose to add bean validation only on the request DTOs, because in this design no invalid data can reach an
+        entity without first passing through the request DTOs and the service's business logic, so the entity does not
+        need to protect itself. It also avoids duplicating validations between the request DTO and the entity.</p>
+
+      <h2 data-en="Exception handling" data-es="Manejo de excepciones">Exception handling</h2>
+      <p data-en="The exception handling covers the following:"
+        data-es="En el manejo de excepciones se contemplan las siguientes:">
+        The exception handling covers the following:</p>
+      <ul>
+        <li data-en="Resource not found" data-es="Recurso no encontrado">Resource not found</li>
+        <li data-en="Duplicate resource" data-es="Recurso duplicado">Duplicate resource</li>
+        <li data-en="Invalid argument" data-es="Argumento inválido">Invalid argument</li>
+        <li data-en="Generic exception" data-es="Excepción general">Generic exception</li>
+      </ul>
+      <p data-en="For the generic exception I do not expose the exception message, to avoid leaking internal details of the database structure; only an informative message is returned."
+        data-es="En las excepciones generales no expongo el mensaje de la excepción para no exponer indebidamente datos internos de la estructura de la base de datos, de modo que únicamente se pone un mensaje informativo.">
+        For the generic exception I do not expose the exception message, to avoid leaking internal details of the
+        database structure; only an informative message is returned.</p>
+
+      <h2 data-en="Records" data-es="Records">Records</h2>
+      <p data-en="I decided to use records for both the DTOs and the errors returned by the API, since they are simple classes whose only purpose is to carry data."
+        data-es="Decidí emplear records tanto para los DTOs como para los errores devueltos por la API, ya que son clases simples que únicamente se emplean para transportar datos.">
+        I decided to use records for both the DTOs and the errors returned by the API, since they are simple classes
+        whose only purpose is to carry data.</p>
+
+      <h2 data-en="Pagination" data-es="Paginación">Pagination</h2>
+      <p data-en="As a next step I implemented pagination on the StockMovement and Product entities: on the former because the table will hold a huge number of rows and fetching them all on every query would make the API extremely slow, and on the latter to prepare the API for the future if many products are added."
+        data-es="Como siguiente paso implementé paginación en las entidades de StockMovement y Product, en la primera porque la tabla tendrá muchísimos registros y traerlos todos en cada consulta haría la API lentísima, y en la segunda para preparar la API para el futuro en el caso de que se agreguen muchos productos.">
+        As a next step I implemented pagination on the StockMovement and Product entities: on the former because the
+        table will hold a huge number of rows and fetching them all on every query would make the API extremely slow,
+        and on the latter to prepare the API for the future if many products are added.</p>
+
+      <h2>
+        <span data-en="Base tests" data-es="Tests base">Base tests</span>
+        <span class="pending" data-en="Pending" data-es="Pendiente">Pending</span>
+      </h2>
+    </article>
+  </div>
+
+  <script src="../assets/lang.js"></script>
+</body>
+
+</html>

@@ -3,11 +3,11 @@
   --text: #111111;
   --text-light: #666666;
   --border: #e2e2e2;
-  --blue-soft: #f1f6fd;
+  --blue-soft: #e9f1fc;
   --project-border: #dde7f7;
-  --pending-bg: #e3edfb;
-  --pending-border: #b9d3f5;
-  --pending-text: #2563a8;
+  --tag-bg: #e3edfb;
+  --tag-border: #b9d3f5;
+  --tag-text: #2563a8;
 }
 
 * {
@@ -96,12 +96,13 @@ section {
 }
 
 .tags span {
-  border: 1px solid var(--border);
   border-radius: 100px;
   padding: 2px 1rem;
   margin-right: 6px;
   font-size: 1.6rem;
-  color: var(--text-light);
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  color: var(--tag-text);
 }
 
 .project__box {
@@ -113,27 +114,13 @@ section {
 }
 
 .project ul {
-  margin-left: 2rem;
+  margin-left: 2.4rem;
+  list-style: disc;
 }
 
 .project ul li {
-  display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.pending {
-  display: inline-block;
-  flex-shrink: 0;
-  background: var(--pending-bg);
-  border: 1px solid var(--pending-border);
-  color: var(--pending-text);
-  border-radius: 100px;
-  padding: 1px 1rem;
-  font-size: 1.3rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+  margin-bottom: 0.2rem;
 }
 
 /* Technical decisions */

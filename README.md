@@ -12,7 +12,6 @@ A single static portfolio with basic info, projects and skills.
 - **Header** : name, tagline and contact links (email, GitHub, LinkedIn), EN/ES language toggle.
 - **About** : short bio.
 - **Projects** : project cards with description, tech tags, feature list (with a "Pending" tag for work in progress) and links (code / live demo / technical decisions).
-- **Skills** : grouped by category.
 
 ## Run
 
